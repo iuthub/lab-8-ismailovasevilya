@@ -11,6 +11,44 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [
+	'uses' => 'PostController@getIndex',
+	'as' => 'blogIndex'
+]);
+Route::get('/post/{id}',[
+	'uses' => 'PostController@getPost',
+	'as' => 'blogPost']);
+
+Route::group([
+	'prefix' => 'admin'
+], function(){
+
+	Route::get('', [
+		'uses' => 'PostController@getAdminIndex',
+		'as' => 'adminIndex'
+	]);
+
+	Route::get('create',[
+		'uses' => 'PostController@getAdminCreate',
+		'as' => 'adminCreate'
+	]);
+
+	Route::post('create',  [
+		'uses' => 'PostController@postAdminCreate',
+		'as' => 'adminCreate'
+	]);
+
+	Route::get('/edit/{id}', [
+		'uses' => 'PostController@getAdminEdit',
+		'as' => 'adminEdit'
+	]);
+
+	Route::post('edit',  [
+		'uses' => 'PostController@postAdminUpdate',
+		'as' => 'adminUpdate'
+	]);
 });
+
+
+
+
